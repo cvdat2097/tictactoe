@@ -1,4 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './index.css'
+import Game from './components/Game/Game';
 
-ReactDOM.render(<h1>lkdjf</h1>, document.getElementById('root'));
+
+ReactDOM.render(<Game />, document.getElementById('root'))
