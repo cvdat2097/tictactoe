@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './Game.css';
 import Board from '../Board/Board';
 
@@ -12,8 +11,8 @@ export default class Game extends React.Component {
                 coord: null
             }],
             xIsNext: true,
-            stepNumber: 0
-
+            stepNumber: 0,
+            toggleMovesOrder: 1
         }
     }
 
@@ -49,13 +48,19 @@ export default class Game extends React.Component {
         });
     }
 
+    sortMove() {
+        this.setState({
+            toggleMovesOrder: -1 * this.state.toggleMovesOrder
+        })
+    }
+
 
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
 
-        const moves = history.map((step, move) => {
+        let moves = history.map((step, move) => {
             const desc = move ?
                 'Go to move: ' + step.coord.x + ', ' + step.coord.y :
                 'Go to game start';
@@ -65,6 +70,12 @@ export default class Game extends React.Component {
                 </li>
             );
         });
+        if (this.state.toggleMovesOrder) {
+            moves = moves.sort(() => {
+                return this.state.toggleMovesOrder;
+            })
+        }
+
 
         let status;
         if (winner) {
@@ -72,19 +83,21 @@ export default class Game extends React.Component {
         } else {
             status = "Next player: " + (this.state.xIsNext ? "X" : "O");
         }
-        console.log(current)
 
         return (
             <div className="game">
                 <div className="game-board">
                     <Board
                         squares={current.squares}
-                        currentSelected={current.coord?current.coord.i : null}
-                        onClick={i => {this.handleClick(i)}}
+                        currentSelected={current.coord ? current.coord.i : null}
+                        onClick={i => { this.handleClick(i) }}
                     />
                 </div>
                 <div className="game-info">
                     <div>{status}</div>
+                    <div className="history-controller">
+                        <button onClick={() => this.sortMove()}>Sort</button>
+                    </div>
                     <ol>{moves}</ol>
                 </div>
             </div>
