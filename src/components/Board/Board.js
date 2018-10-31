@@ -6,7 +6,8 @@ import Square from '../Square/Square';
 export default class Board extends React.Component {
 
     renderSquare(i) {
-        return <Square value={this.props.squares[i]} coord={i} onClick={() => {this.props.onClick(i)}} />;
+        let isSelected = this.props.currentSelected;
+        return <Square isSelected={isSelected == i} value={this.props.squares[i]} coord={i} onClick={() => {this.props.onClick(i)}} />;
     }
 
     render() {

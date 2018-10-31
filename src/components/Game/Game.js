@@ -32,7 +32,8 @@ export default class Game extends React.Component {
                     squares: squares,
                     coord: {
                         x: i % 3,
-                        y: Math.floor(i / 3) + 1
+                        y: Math.floor(i / 3) + 1,
+                        i: i
                     }
                 }
             ]),
@@ -60,7 +61,7 @@ export default class Game extends React.Component {
                 'Go to game start';
             return (
                 <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
+                    <button className={move == this.state.stepNumber ? "current-selected" : ""} onClick={() => this.jumpTo(move)}>{desc}</button>
                 </li>
             );
         });
@@ -71,12 +72,14 @@ export default class Game extends React.Component {
         } else {
             status = "Next player: " + (this.state.xIsNext ? "X" : "O");
         }
+        console.log(current)
 
         return (
             <div className="game">
                 <div className="game-board">
                     <Board
                         squares={current.squares}
+                        currentSelected={current.coord?current.coord.i : null}
                         onClick={i => {this.handleClick(i)}}
                     />
                 </div>
