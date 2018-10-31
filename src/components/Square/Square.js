@@ -5,7 +5,11 @@ export default function Square(props) {
     let classNames = "square ";
 
     if (props.isSelected) {
-        classNames += "square-selected";
+        classNames += "square-selected ";
+    }
+    if (props.inWinLine) {
+        classNames += "win-square";
+
     }
 
     return (

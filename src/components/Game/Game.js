@@ -12,7 +12,8 @@ export default class Game extends React.Component {
             }],
             xIsNext: true,
             stepNumber: 0,
-            toggleMovesOrder: 1
+            toggleMovesOrder: 1,
+            winLine: []
         }
     }
 
@@ -79,7 +80,7 @@ export default class Game extends React.Component {
 
         let status;
         if (winner) {
-            status = "Winner: " + winner;
+            status = "Winner: " + (winner ? winner.winner : '');
         } else {
             status = "Next player: " + (this.state.xIsNext ? "X" : "O");
         }
@@ -91,6 +92,7 @@ export default class Game extends React.Component {
                         squares={current.squares}
                         currentSelected={current.coord ? current.coord.i : null}
                         onClick={i => { this.handleClick(i) }}
+                        winLine={winner ? winner.line: ''}
                     />
                 </div>
                 <div className="game-info">
@@ -117,10 +119,14 @@ function calculateWinner(squares) {
         [0, 4, 8],
         [2, 4, 6],
     ];
-    for (let i = 0; i < lines.length; i++) {
+    var i;
+    for (var i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
+            return {
+                line: lines[i],
+                winner: squares[a]
+            };
         }
     }
     return null;
