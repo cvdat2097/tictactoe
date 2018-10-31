@@ -9,6 +9,7 @@ export default class Game extends React.Component {
         this.state = {
             history: [{
                 squares: Array(9).fill(null),
+                coord: null
             }],
             xIsNext: true,
             stepNumber: 0
@@ -17,8 +18,7 @@ export default class Game extends React.Component {
     }
 
 
-    handleClick(i, coordinates) {
-        console.log(coordinates);
+    handleClick(i) {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
         const squares = current.squares.slice();
@@ -29,7 +29,11 @@ export default class Game extends React.Component {
         this.setState({
             history: history.concat([
                 {
-                    squares: squares
+                    squares: squares,
+                    coord: {
+                        x: i % 3,
+                        y: Math.floor(i / 3) + 1
+                    }
                 }
             ]),
             stepNumber: history.length,
@@ -52,7 +56,7 @@ export default class Game extends React.Component {
 
         const moves = history.map((step, move) => {
             const desc = move ?
-                'Go to move #' + move :
+                'Go to move: ' + step.coord.x + ', ' + step.coord.y :
                 'Go to game start';
             return (
                 <li key={move}>
