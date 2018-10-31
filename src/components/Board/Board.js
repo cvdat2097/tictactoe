@@ -7,48 +7,32 @@ export default class Board extends React.Component {
 
     renderSquare(i) {
         let isSelected = this.props.currentSelected;
-        return <Square isSelected={isSelected == i} value={this.props.squares[i]} coord={i} onClick={() => {this.props.onClick(i)}} />;
+        return <Square isSelected={isSelected == i} value={this.props.squares[i]} coord={i} onClick={() => { this.props.onClick(i) }} />;
+    }
+
+    renderBoard2() {
+        var board = [];
+
+        for (let i = 0; i < 3; i++) {
+            var row = [];
+            for (let j = 0; j < 3; j++) {
+                row.push(this.renderSquare(3 * i + j));
+            }
+            board.push(
+                <div className="board-row">
+                    {row}
+                </div>
+            );
+        }
+
+        return board;
     }
 
     render() {
         return (
             <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
+                {this.renderBoard2()}
             </div>
         );
     }
-}
-
-function calculateWinner(squares) {
-    const lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-        const [a, b, c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
-        }
-    }
-    return null;
 }
