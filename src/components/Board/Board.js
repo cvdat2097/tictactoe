@@ -7,10 +7,10 @@ export default class Board extends React.Component {
 
     renderSquare(i) {
         let isSelected = this.props.currentSelected;
-        return <Square isSelected={isSelected == i} value={this.props.squares[i]} coord={i} onClick={() => { this.props.onClick(i) }} />;
+        return <Square key={i} isSelected={isSelected == i} value={this.props.squares[i]} coord={i} onClick={() => { this.props.onClick(i) }} />;
     }
 
-    renderBoard2() {
+    renderBoard() {
         var board = [];
 
         for (let i = 0; i < 3; i++) {
@@ -19,7 +19,7 @@ export default class Board extends React.Component {
                 row.push(this.renderSquare(3 * i + j));
             }
             board.push(
-                <div className="board-row">
+                <div key={i} className="board-row">
                     {row}
                 </div>
             );
@@ -31,7 +31,7 @@ export default class Board extends React.Component {
     render() {
         return (
             <div>
-                {this.renderBoard2()}
+                {this.renderBoard()}
             </div>
         );
     }
