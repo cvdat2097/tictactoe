@@ -10,11 +10,11 @@ export default class Board extends React.Component {
         let winLine = this.props.winLine;
 
         return <Square key={i}
-            isSelected={isSelected == i}
+            isSelected={isSelected === i}
             value={this.props.squares[i]}
             coord={i}
             onClick={() => { this.props.onClick(i) }}
-            inWinLine={winLine.indexOf(i) != -1}
+            inWinLine={winLine.indexOf(i) !== -1}
         />;
     }
 
